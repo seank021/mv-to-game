@@ -1,4 +1,4 @@
-import { GameData, MemberData, ObjectData, Position, MemberChatData } from "./types";
+import { GameData, MemberData, ObjectData, Position, MemberChatData, MapData, ZoneData } from "./types";
 
 // ─── Analyzer JSON types ───
 
@@ -210,11 +210,39 @@ export function transformAnalyzerOutput(data: AnalyzerOutput): GameData {
     };
   });
 
+  const map: MapData = {
+    zones: data.map.zones.map((z): ZoneData => ({
+      zoneId: z.zone_id,
+      memberName: z.member_name,
+      backgroundTimestamp: z.background_timestamp,
+      width: z.width,
+      height: z.height,
+      connections: z.connections.map((c) => ({
+        toZone: c.to_zone,
+        edge: c.edge as "left" | "right" | "top" | "bottom",
+        positionY: c.position_y,
+      })),
+      memberPosition: { x: z.member_position.x, y: z.member_position.y },
+      objectPositions: z.object_positions.map((o) => ({
+        label: o.label,
+        x: o.x,
+        y: o.y,
+        isKeyObject: o.is_key_object,
+      })),
+    })),
+    spawnZone: data.map.spawn_zone,
+    playerStartPosition: {
+      x: data.map.player_start_position.x,
+      y: data.map.player_start_position.y,
+    },
+  };
+
   return {
     mvId: data.mv_id,
     title: data.title,
     artist: data.artist,
     durationSeconds: data.duration_seconds,
     members,
+    map,
   };
 }

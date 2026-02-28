@@ -94,10 +94,34 @@ export interface GameResult {
   totalMembers: number;
 }
 
+export interface ZoneConnection {
+  toZone: string;
+  edge: "left" | "right" | "top" | "bottom";
+  positionY: number;
+}
+
+export interface ZoneData {
+  zoneId: string;
+  memberName: string;
+  backgroundTimestamp: string;
+  width: number;
+  height: number;
+  connections: ZoneConnection[];
+  memberPosition: SmoothPosition;
+  objectPositions: { label: string; x: number; y: number; isKeyObject: boolean }[];
+}
+
+export interface MapData {
+  zones: ZoneData[];
+  spawnZone: string;
+  playerStartPosition: SmoothPosition;
+}
+
 export interface GameData {
   mvId: string;
   title: string;
   artist: string;
   durationSeconds: number;
   members: MemberData[];
+  map: MapData;
 }

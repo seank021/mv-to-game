@@ -287,4 +287,9 @@ export const MOCK_GAME_DATA: GameData = {
   artist: "BLACKPINK",
   durationSeconds: 210,
   members: [jennie, jisoo, rose, lisa],
+  map: {
+    zones: [],
+    spawnZone: "",
+    playerStartPosition: { x: 0, y: 0 },
+  },
 };
