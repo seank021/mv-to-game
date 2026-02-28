@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from "react";
 import { useGameStore } from "@/stores/gameStore";
 import { ChatMessage as ChatMessageComponent } from "./ChatMessage";
 import { PixelButton } from "@/components/ui/PixelButton";
+import { MemberAvatar } from "../MemberAvatar";
 import { motion } from "framer-motion";
 
 interface ChatPanelProps {
@@ -119,7 +120,7 @@ export function ChatPanel({ memberId }: ChatPanelProps) {
         {/* Header */}
         <div className="flex items-center justify-between px-4 py-3 border-b border-surface-light">
           <div className="flex items-center gap-2">
-            <span className="text-xl">{member.emoji}</span>
+            <MemberAvatar emoji={member.emoji} profileImage={member.profileImage} name={member.name} size="md" />
             <span className="font-pixel text-[10px] text-white">
               {member.name}
             </span>

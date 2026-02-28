@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { GameResult } from "@/lib/types";
 import { useGameStore } from "@/stores/gameStore";
 import { PixelButton } from "@/components/ui/PixelButton";
+import { MemberAvatar } from "../MemberAvatar";
 import { motion } from "framer-motion";
 
 interface GameOverResultProps {
@@ -46,7 +47,7 @@ export function GameOverResult({ result }: GameOverResultProps) {
           {members.map((m) => (
             <div key={m.id} className="flex flex-col items-center gap-1">
               <span className="text-2xl">
-                {m.emoji}
+                <MemberAvatar emoji={m.emoji} profileImage={m.profileImage} name={m.name} size="lg" />
               </span>
               <span
                 className={`font-pixel text-[6px] ${

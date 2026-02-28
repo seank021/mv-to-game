@@ -143,7 +143,23 @@ function generateDescription(label: string, isKey: boolean): string {
 
 // ─── Main transform ───
 
-export function transformAnalyzerOutput(data: AnalyzerOutput): GameData {
+function findAvatar(avatarMap: Record<string, string> | undefined, name: string): string | undefined {
+  if (!avatarMap) return undefined;
+  // Exact match first
+  if (avatarMap[name]) return avatarMap[name];
+  // Case-insensitive match
+  const lower = name.toLowerCase();
+  for (const [key, value] of Object.entries(avatarMap)) {
+    if (key.toLowerCase() === lower) return value;
+  }
+  // Partial match (e.g. "Lalisa" contains "Lisa")
+  for (const [key, value] of Object.entries(avatarMap)) {
+    if (lower.includes(key.toLowerCase()) || key.toLowerCase().includes(lower)) return value;
+  }
+  return undefined;
+}
+
+export function transformAnalyzerOutput(data: AnalyzerOutput, avatarMap?: Record<string, string>): GameData {
   const members: MemberData[] = data.members.map((member, index) => {
     const zone = data.map.zones.find((z) => z.member_name === member.name);
     const theme = ROOM_THEMES[index % ROOM_THEMES.length];
@@ -193,6 +209,7 @@ export function transformAnalyzerOutput(data: AnalyzerOutput): GameData {
       id: member.name.toLowerCase().replace(/[^a-z0-9]+/g, "-"),
       name: member.name,
       emoji: MEMBER_EMOJIS[index % MEMBER_EMOJIS.length],
+      profileImage: findAvatar(avatarMap, member.name),
       roomId: zone?.zone_id ?? `room_${index}`,
       roomName,
       roomEmoji: theme.emoji,

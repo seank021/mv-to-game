@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { GameResult } from "@/lib/types";
 import { useGameStore } from "@/stores/gameStore";
 import { PixelButton } from "@/components/ui/PixelButton";
+import { MemberAvatar } from "../MemberAvatar";
 import { motion } from "framer-motion";
 
 interface ClearResultProps {
@@ -59,8 +60,9 @@ export function ClearResult({ result }: ClearResultProps) {
                 <span className="font-pixel text-[10px] text-warning">
                   {i === 0 ? "&#11088;" : `${i + 1}.`}
                 </span>
-                <span className="text-sm text-white">
-                  {m?.emoji} {m?.name}
+                <span className="text-sm text-white flex items-center gap-1">
+                  <MemberAvatar emoji={m?.emoji ?? ""} profileImage={m?.profileImage} name={m?.name ?? ""} size="sm" />
+                  {m?.name}
                 </span>
               </div>
             );

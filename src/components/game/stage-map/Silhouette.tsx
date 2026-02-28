@@ -2,14 +2,16 @@
 
 import { motion } from "framer-motion";
 import { MemberStatus } from "@/lib/types";
+import { MemberAvatar } from "../MemberAvatar";
 
 interface SilhouetteProps {
   name: string;
   emoji: string;
+  profileImage?: string;
   status: MemberStatus;
 }
 
-export function Silhouette({ name, emoji, status }: SilhouetteProps) {
+export function Silhouette({ name, emoji, profileImage, status }: SilhouetteProps) {
   const isRescued = status === "rescued";
 
   return (
@@ -23,11 +25,11 @@ export function Silhouette({ name, emoji, status }: SilhouetteProps) {
       transition={{ duration: 0.8 }}
     >
       <span
-        className={`text-base md:text-lg transition-all duration-800 ${
+        className={`transition-all duration-800 ${
           isRescued ? "silhouette-revealed" : "silhouette"
         }`}
       >
-        {emoji}
+        <MemberAvatar emoji={emoji} profileImage={profileImage} name={name} size="md" />
       </span>
       {isRescued && (
         <motion.span

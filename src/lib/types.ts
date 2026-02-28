@@ -57,6 +57,7 @@ export interface MemberData {
   id: string;
   name: string;
   emoji: string;
+  profileImage?: string;
   roomId: string;
   roomName: string;
   roomEmoji: string;

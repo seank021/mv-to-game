@@ -33,17 +33,28 @@ function PlayContent() {
     if (!url || fetchedRef.current) return;
     fetchedRef.current = true;
 
-    fetch("/api/analyze", {
+    // Fire MV analysis and avatar generation in parallel
+    const analyzePromise = fetch("/api/analyze", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ url }),
+    }).then((res) => {
+      if (!res.ok) return res.json().then((d) => { throw new Error(d.error || `Analysis failed (${res.status})`); });
+      return res.json();
+    });
+
+    const avatarPromise = fetch("/api/generate-avatars", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ url }),
     })
-      .then((res) => {
-        if (!res.ok) return res.json().then((d) => { throw new Error(d.error || `Analysis failed (${res.status})`); });
-        return res.json();
-      })
-      .then((data: AnalyzerOutput) => {
-        const transformed = transformAnalyzerOutput(data);
+      .then((res) => res.ok ? res.json() : { avatars: {} })
+      .then((data) => (data.avatars ?? {}) as Record<string, string>)
+      .catch(() => ({} as Record<string, string>));
+
+    Promise.all([analyzePromise, avatarPromise])
+      .then(([data, avatarMap]: [AnalyzerOutput, Record<string, string>]) => {
+        const transformed = transformAnalyzerOutput(data, avatarMap);
         setGameData(transformed);
       })
       .catch((err) => {

@@ -11,6 +11,7 @@ import { QuizPanel } from "../overlays/QuizPanel";
 import { ObjectPopup } from "../overlays/ObjectPopup";
 import { RescueAnimation } from "../overlays/RescueAnimation";
 import { VirtualJoystick } from "@/components/ui/VirtualJoystick";
+import { MemberAvatar } from "../MemberAvatar";
 import { motion } from "framer-motion";
 
 export function RoomView() {
@@ -191,7 +192,7 @@ export function RoomView() {
               height: `var(--cell-size)`,
             }}
           >
-            <span className="text-base md:text-lg">{member.emoji}</span>
+            <MemberAvatar emoji={member.emoji} profileImage={member.profileImage} name={member.name} size="md" />
           </div>
         )}
 

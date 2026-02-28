@@ -6,6 +6,7 @@ import { usePlayerMovement } from "@/hooks/usePlayerMovement";
 import { useProximity, ProximityTarget } from "@/hooks/useProximity";
 import { useActionKeys } from "@/hooks/useKeyboard";
 import { Silhouette } from "./Silhouette";
+import { MemberAvatar } from "../MemberAvatar";
 import { VirtualJoystick } from "@/components/ui/VirtualJoystick";
 import {
   STAGE_COLS,
@@ -259,12 +260,13 @@ export function StageMap() {
             <span className="font-pixel text-[6px] md:text-[7px] text-warning/70 tracking-widest">
               &#9733; STAGE &#9733;
             </span>
-            <div className="flex gap-1.5">
+            <div className="grid grid-cols-2 gap-1">
               {members.map((m) => (
                 <Silhouette
                   key={m.id}
                   name={m.name}
                   emoji={m.emoji}
+                  profileImage={m.profileImage}
                   status={m.status}
                 />
               ))}
@@ -401,7 +403,7 @@ export function StageMap() {
                       repeat: 2,
                     }}
                   >
-                    {m.emoji}
+                    <MemberAvatar emoji={m.emoji} profileImage={m.profileImage} name={m.name} size="xl" />
                   </motion.span>
                 ))}
               </motion.div>
