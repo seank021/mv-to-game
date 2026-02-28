@@ -12,7 +12,7 @@ import {
   STAGE_ROWS,
   CELL_SIZE,
   CELL_SIZE_MOBILE,
-  STAGE_PORTALS,
+  STAGE_PORTAL_SLOTS,
   STAGE_MAP_LAYOUT,
   STAGE_AREA,
   PLAYER_RADIUS,
@@ -78,14 +78,30 @@ export function StageMap() {
   const { playerPosition, addDirection, removeDirection } =
     usePlayerMovement(STAGE_COLS, STAGE_ROWS, enabled, canOccupy);
 
+  // Build portals dynamically: assign each member to a portal slot
+  const portals = useMemo(
+    () =>
+      members.map((m, i) => {
+        const slot = STAGE_PORTAL_SLOTS[i % STAGE_PORTAL_SLOTS.length];
+        return {
+          roomId: m.roomId,
+          col: slot.col,
+          row: slot.row,
+          label: slot.label,
+          emoji: m.roomEmoji,
+        };
+      }),
+    [members]
+  );
+
   // Portal proximity targets
   const portalTargets: ProximityTarget[] = useMemo(
     () =>
-      STAGE_PORTALS.map((p) => ({
+      portals.map((p) => ({
         id: `portal-${p.roomId}`,
         position: { row: p.row, col: p.col },
       })),
-    []
+    [portals]
   );
 
   const { canInteract, interactTargetId } = useProximity(
@@ -142,7 +158,7 @@ export function StageMap() {
             if (cell === 0) return null;
 
             const isStage = isStageCell(rowIdx, colIdx);
-            const portal = STAGE_PORTALS.find(
+            const portal = portals.find(
               (p) => p.row === rowIdx && p.col === colIdx
             );
 
@@ -176,7 +192,7 @@ export function StageMap() {
         )}
 
         {/* Room portals */}
-        {STAGE_PORTALS.map((portal) => {
+        {portals.map((portal) => {
           const member = getMemberForRoom(portal.roomId);
           const isRescued = member?.status === "rescued";
           const isNear =

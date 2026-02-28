@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import {
   GamePhase,
+  GameData,
   MemberData,
   MemberStatus,
   OverlayType,
@@ -9,7 +10,6 @@ import {
   GameResult,
   TransitionStep,
 } from "@/lib/types";
-import { MOCK_GAME_DATA } from "@/data/mockData";
 import {
   STAGE_START_POSITION,
   ROOM_ENTRY_POSITION,
@@ -84,7 +84,7 @@ interface GameState {
   setResult: (result: GameResult) => void;
 
   // Initialize
-  initGame: () => void;
+  initGameWithData: (data: GameData) => void;
   resetGame: () => void;
 }
 
@@ -156,12 +156,12 @@ export const useGameStore = create<GameState>((set, get) => ({
   },
 
   // Game data
-  title: MOCK_GAME_DATA.title,
-  artist: MOCK_GAME_DATA.artist,
-  durationSeconds: MOCK_GAME_DATA.durationSeconds,
+  title: "",
+  artist: "",
+  durationSeconds: 0,
 
   // Timer
-  timeRemaining: MOCK_GAME_DATA.durationSeconds,
+  timeRemaining: 0,
   timerRunning: false,
   startTimer: () => set({ timerRunning: true }),
   tick: () => {
@@ -189,7 +189,7 @@ export const useGameStore = create<GameState>((set, get) => ({
   },
 
   // Members
-  members: MOCK_GAME_DATA.members.map((m) => ({ ...m, status: "trapped" as MemberStatus })),
+  members: [],
   rescueOrder: [],
   rescueMember: (memberId) => {
     const state = get();
@@ -265,12 +265,15 @@ export const useGameStore = create<GameState>((set, get) => ({
   setResult: (result) => set({ result }),
 
   // Initialize
-  initGame: () => {
+  initGameWithData: (data: GameData) => {
     set({
       phase: "stage-map",
-      timeRemaining: MOCK_GAME_DATA.durationSeconds,
+      title: data.title,
+      artist: data.artist,
+      durationSeconds: data.durationSeconds,
+      timeRemaining: data.durationSeconds,
       timerRunning: true,
-      members: MOCK_GAME_DATA.members.map((m) => ({
+      members: data.members.map((m) => ({
         ...m,
         status: "trapped" as MemberStatus,
       })),
@@ -294,12 +297,12 @@ export const useGameStore = create<GameState>((set, get) => ({
   resetGame: () => {
     set({
       phase: "landing",
-      timeRemaining: MOCK_GAME_DATA.durationSeconds,
+      title: "",
+      artist: "",
+      durationSeconds: 0,
+      timeRemaining: 0,
       timerRunning: false,
-      members: MOCK_GAME_DATA.members.map((m) => ({
-        ...m,
-        status: "trapped" as MemberStatus,
-      })),
+      members: [],
       rescueOrder: [],
       currentRoomId: null,
       playerPosition: { ...STAGE_START_POSITION },

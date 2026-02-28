@@ -18,12 +18,12 @@ export const STAGE_MAP_LAYOUT = [
 export const STAGE_COLS = 15;
 export const STAGE_ROWS = 11;
 
-// Room portals (positions on stage map — centered in 2-wide paths)
-export const STAGE_PORTALS = [
-  { roomId: "mansion", col: 2, row: 1, emoji: "\u{1F3F0}", label: "S1" },
-  { roomId: "ocean", col: 8, row: 1, emoji: "\u{1F30A}", label: "S3" },
-  { roomId: "garden", col: 2, row: 9, emoji: "\u{1F33F}", label: "S2" },
-  { roomId: "stage", col: 8, row: 9, emoji: "\u{1F3A4}", label: "S4" },
+// Portal slot positions on stage map (assigned to members dynamically)
+export const STAGE_PORTAL_SLOTS = [
+  { col: 2, row: 1, label: "S1" },
+  { col: 8, row: 1, label: "S2" },
+  { col: 2, row: 9, label: "S3" },
+  { col: 8, row: 9, label: "S4" },
 ] as const;
 
 // Stage area (concert stage with silhouettes)
