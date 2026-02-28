@@ -79,21 +79,28 @@ export function StageMap() {
   const { playerPosition, addDirection, removeDirection } =
     usePlayerMovement(STAGE_COLS, STAGE_ROWS, enabled, canOccupy);
 
-  // Build portals dynamically: assign each member to a portal slot
-  const portals = useMemo(
-    () =>
-      members.map((m, i) => {
-        const slot = STAGE_PORTAL_SLOTS[i % STAGE_PORTAL_SLOTS.length];
-        return {
-          roomId: m.roomId,
-          col: slot.col,
-          row: slot.row,
-          label: slot.label,
-          emoji: m.roomEmoji,
-        };
-      }),
-    [members]
-  );
+  // Build portals dynamically: distribute members round-robin across slots.
+  // When a member is rescued, the next queued member for that slot appears.
+  const portals = useMemo(() => {
+    // Group members into slot queues (round-robin)
+    const slotQueues: typeof members[] = STAGE_PORTAL_SLOTS.map(() => []);
+    members.forEach((m, i) => {
+      slotQueues[i % STAGE_PORTAL_SLOTS.length].push(m);
+    });
+
+    // For each slot, show the first non-rescued member
+    return STAGE_PORTAL_SLOTS.map((slot, slotIdx) => {
+      const active = slotQueues[slotIdx].find((m) => m.status !== "rescued");
+      if (!active) return null;
+      return {
+        roomId: active.roomId,
+        col: slot.col,
+        row: slot.row,
+        label: slot.label,
+        emoji: active.roomEmoji,
+      };
+    }).filter((p): p is NonNullable<typeof p> => p !== null);
+  }, [members]);
 
   // Portal proximity targets
   const portalTargets: ProximityTarget[] = useMemo(
@@ -231,14 +238,14 @@ export function StageMap() {
           );
         })}
 
-        {/* Stage area — concert stage platform */}
+        {/* Stage area — concert stage platform (auto-height, vertically centered) */}
         <div
           className="absolute pointer-events-none"
           style={{
             left: STAGE_AREA.startCol * CELL_SIZE,
-            top: STAGE_AREA.startRow * CELL_SIZE,
+            top: ((STAGE_AREA.startRow + STAGE_AREA.endRow + 1) / 2) * CELL_SIZE,
+            transform: "translateY(-50%)",
             width: (STAGE_AREA.endCol - STAGE_AREA.startCol + 1) * CELL_SIZE,
-            height: (STAGE_AREA.endRow - STAGE_AREA.startRow + 1) * CELL_SIZE,
           }}
         >
           {/* Stage platform background */}
@@ -256,11 +263,11 @@ export function StageMap() {
           <div className="absolute -top-3 right-1/4 w-1 h-3 bg-gradient-to-b from-warning/40 to-transparent rounded-full" />
 
           {/* Stage content */}
-          <div className="relative flex flex-col items-center justify-center h-full gap-1">
+          <div className="relative flex flex-col items-center justify-center py-2 gap-1">
             <span className="font-pixel text-[6px] md:text-[7px] text-warning/70 tracking-widest">
               &#9733; STAGE &#9733;
             </span>
-            <div className="grid grid-cols-2 gap-1">
+            <div className={`grid gap-1 ${members.length > 4 ? "grid-cols-3" : "grid-cols-2"}`}>
               {members.map((m) => (
                 <Silhouette
                   key={m.id}
@@ -268,6 +275,7 @@ export function StageMap() {
                   emoji={m.emoji}
                   profileImage={m.profileImage}
                   status={m.status}
+                  compact={members.length > 4}
                 />
               ))}
             </div>

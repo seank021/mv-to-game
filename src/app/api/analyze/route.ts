@@ -58,7 +58,7 @@ const PROMPT = `You are analyzing a K-pop music video to generate game data for 
 }
 
 Rules:
-- Identify the 4 main members featured in the MV
+- Identify ALL members/performers featured in the MV (solo artists count as 1, groups can have up to 10)
 - Each member gets exactly 1 zone and 1 room entry
 - ALL text must be in English
 - background_timestamp: pick the most iconic/representative frame of that member — the member SHOULD be visible in this frame. Choose their most visually striking moment

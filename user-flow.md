@@ -109,7 +109,7 @@ Analysis starts
 │     the music video?!?!?!"                   │
 │                                              │
 │ [Member silhouettes disappear one by one]    │
-│ 4. "Right now they're playing the title      │
+│ 4. "Right now we're just playing the title   │
 │     track on stage to buy time..."           │
 │ 5. "You need to go into the music video      │
 │     yourself and rescue them!!"              │

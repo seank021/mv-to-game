@@ -119,7 +119,7 @@ Player = Agency CEO (or manager). An emergency occurs right before the concert.
 4. "Boss!! We have a huge problem!!"
 5. "The concert just started but... the members got trapped inside the music video?!?!?!"
 6. *[Member silhouettes on stage disappear one by one]*
-7. "Right now they're playing the title track on stage to buy time..."
+7. "Right now we're just playing the title track on stage to buy time..."
 8. "You need to go into the music video yourself and rescue them!!"
 9. "You have to rescue everyone before the song ends to save the concert!!!"
 10. *[Animation of the player diving into the screen]*

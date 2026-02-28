@@ -9,9 +9,10 @@ interface SilhouetteProps {
   emoji: string;
   profileImage?: string;
   status: MemberStatus;
+  compact?: boolean;
 }
 
-export function Silhouette({ name, emoji, profileImage, status }: SilhouetteProps) {
+export function Silhouette({ name, emoji, profileImage, status, compact }: SilhouetteProps) {
   const isRescued = status === "rescued";
 
   return (
@@ -29,7 +30,7 @@ export function Silhouette({ name, emoji, profileImage, status }: SilhouetteProp
           isRescued ? "silhouette-revealed" : "silhouette"
         }`}
       >
-        <MemberAvatar emoji={emoji} profileImage={profileImage} name={name} size="md" />
+        <MemberAvatar emoji={emoji} profileImage={profileImage} name={name} size={compact ? "sm" : "md"} />
       </span>
       {isRescued && (
         <motion.span

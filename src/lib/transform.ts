@@ -96,7 +96,7 @@ const ROOM_THEMES = [
   { emoji: "🌙", bg: "bg-gradient-to-b from-slate-950 to-blue-900" },
 ];
 
-const MEMBER_EMOJIS = ["👩‍🎤", "🧑‍🎤", "💃", "🎤"];
+const MEMBER_EMOJIS = ["👩‍🎤", "🧑‍🎤", "💃", "🎤", "🎵", "🌟", "🎶", "💫", "🎧", "🎼"];
 
 // ─── Grid position conversion ───
 // Analyzer uses pixel coords in 800x600, game uses 10 cols x 8 rows

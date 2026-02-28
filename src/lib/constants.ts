@@ -73,7 +73,7 @@ export const CUTSCENE_TEXTS = [
   },
   {
     type: "dialogue" as const,
-    text: "Right now they're playing the title track on stage to buy time...",
+    text: "Right now we're just playing the title track on stage to buy time...",
   },
   {
     type: "dialogue" as const,
