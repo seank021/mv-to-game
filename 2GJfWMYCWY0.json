@@ -1,0 +1,381 @@
+{
+  "mv_id": "2GJfWMYCWY0",
+  "title": "GO",
+  "artist": "BLACKPINK",
+  "audio_url": "https://youtu.be/2GJfWMYCWY0?si=yLNnS6r5imo198hq",
+  "duration_seconds": 200,
+  "bpm": 125,
+  "map": {
+    "zones": [
+      {
+        "zone_id": "crystal_cavern",
+        "member_name": "Rosé",
+        "background_pixel_art_url": "",
+        "background_timestamp": "00:08",
+        "width": 800,
+        "height": 600,
+        "connections": [
+          {
+            "to_zone": "white_chamber",
+            "edge": "right",
+            "position_y": 300
+          }
+        ],
+        "member_position": {
+          "x": 400,
+          "y": 300
+        },
+        "object_positions": [
+          {
+            "label": "Pearls",
+            "x": 150,
+            "y": 300,
+            "is_key_object": true
+          },
+          {
+            "label": "Swirling light portal",
+            "x": 650,
+            "y": 200,
+            "is_key_object": false
+          }
+        ]
+      },
+      {
+        "zone_id": "white_chamber",
+        "member_name": "Jennie",
+        "background_pixel_art_url": "",
+        "background_timestamp": "00:24",
+        "width": 800,
+        "height": 600,
+        "connections": [
+          {
+            "to_zone": "crystal_cavern",
+            "edge": "left",
+            "position_y": 300
+          },
+          {
+            "to_zone": "ocean_vessel",
+            "edge": "right",
+            "position_y": 300
+          }
+        ],
+        "member_position": {
+          "x": 400,
+          "y": 300
+        },
+        "object_positions": [
+          {
+            "label": "Ceremonial dress",
+            "x": 200,
+            "y": 400,
+            "is_key_object": true
+          },
+          {
+            "label": "Broken cylindrical wall sections",
+            "x": 600,
+            "y": 300,
+            "is_key_object": false
+          }
+        ]
+      },
+      {
+        "zone_id": "ocean_vessel",
+        "member_name": "Jisoo",
+        "background_pixel_art_url": "",
+        "background_timestamp": "00:59",
+        "width": 800,
+        "height": 600,
+        "connections": [
+          {
+            "to_zone": "white_chamber",
+            "edge": "left",
+            "position_y": 300
+          },
+          {
+            "to_zone": "stormy_seas",
+            "edge": "right",
+            "position_y": 300
+          }
+        ],
+        "member_position": {
+          "x": 400,
+          "y": 300
+        },
+        "object_positions": [
+          {
+            "label": "Fairy wings",
+            "x": 250,
+            "y": 250,
+            "is_key_object": true
+          },
+          {
+            "label": "Peeling mask",
+            "x": 550,
+            "y": 400,
+            "is_key_object": false
+          }
+        ]
+      },
+      {
+        "zone_id": "stormy_seas",
+        "member_name": "Lisa",
+        "background_pixel_art_url": "",
+        "background_timestamp": "01:04",
+        "width": 800,
+        "height": 600,
+        "connections": [
+          {
+            "to_zone": "ocean_vessel",
+            "edge": "left",
+            "position_y": 300
+          }
+        ],
+        "member_position": {
+          "x": 400,
+          "y": 300
+        },
+        "object_positions": [
+          {
+            "label": "Snake-like arm wraps",
+            "x": 200,
+            "y": 350,
+            "is_key_object": true
+          },
+          {
+            "label": "Floating mirrored surface",
+            "x": 600,
+            "y": 250,
+            "is_key_object": false
+          }
+        ]
+      }
+    ],
+    "spawn_zone": "crystal_cavern",
+    "player_start_position": {
+      "x": 100,
+      "y": 400
+    }
+  },
+  "members": [
+    {
+      "name": "Rosé",
+      "profile_photo_url": "",
+      "pixel_avatar_url": "",
+      "room": {
+        "storyline": "Rosé awakens in a beautiful, organic crystal cavern, adorned with pearls. She feels a deep, ethereal connection to her surroundings and searches for clues to her origin.",
+        "background_pixel_art_url": "",
+        "background_timestamp": "00:08",
+        "original_scene_url": "",
+        "objects": [
+          {
+            "label": "Pearls",
+            "bbox": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "is_key_object": true
+          },
+          {
+            "label": "Fluid architecture",
+            "bbox": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "is_key_object": false
+          },
+          {
+            "label": "Swirling light portal",
+            "bbox": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "is_key_object": false
+          }
+        ],
+        "quiz": {
+          "question": "What did Rosé find embedded in her bed?",
+          "type": "multiple_choice",
+          "options": [
+            "Crystals",
+            "Pearls",
+            "Flowers",
+            "Feathers"
+          ],
+          "answer": "Pearls"
+        },
+        "chat_persona_prompt": "You are Rosé, trapped in a sparkling crystal cavern. You've just awakened from a deep slumber, feeling a strange connection to the organic structures around you. You are introspective, artistic, and speak with a gentle but determined tone. You are seeking answers about your past and your purpose."
+      }
+    },
+    {
+      "name": "Jennie",
+      "profile_photo_url": "",
+      "pixel_avatar_url": "",
+      "room": {
+        "storyline": "Jennie finds herself in a pristine white chamber, where she dons a magnificent ceremonial dress. The walls around her begin to break, revealing a path forward through determination and strength.",
+        "background_pixel_art_url": "",
+        "background_timestamp": "00:24",
+        "original_scene_url": "",
+        "objects": [
+          {
+            "label": "Ceremonial dress",
+            "bbox": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "is_key_object": true
+          },
+          {
+            "label": "Broken cylindrical wall sections",
+            "bbox": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "is_key_object": false
+          },
+          {
+            "label": "Ornate lever/control panel",
+            "bbox": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "is_key_object": false
+          }
+        ],
+        "quiz": {
+          "question": "What did Jennie wear that expanded as she moved?",
+          "type": "multiple_choice",
+          "options": [
+            "Wings",
+            "Corset",
+            "Dress",
+            "Cape"
+          ],
+          "answer": "Dress"
+        },
+        "chat_persona_prompt": "You are Jennie, a fierce and confident warrior trapped within a pristine white chamber that is slowly crumbling. You are powerful and adaptable, able to move gracefully even when constrained. You speak with directness and determination, always looking for a way to break free and take action."
+      }
+    },
+    {
+      "name": "Jisoo",
+      "profile_photo_url": "",
+      "pixel_avatar_url": "",
+      "room": {
+        "storyline": "Jisoo navigates a mysterious vessel on a dark, turbulent ocean. She reveals her true self by shedding a mask and harnessing the power of ethereal wings.",
+        "background_pixel_art_url": "",
+        "background_timestamp": "00:59",
+        "original_scene_url": "",
+        "objects": [
+          {
+            "label": "Fairy wings",
+            "bbox": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "is_key_object": true
+          },
+          {
+            "label": "Mask",
+            "bbox": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "is_key_object": false
+          },
+          {
+            "label": "Oar/Staff",
+            "bbox": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "is_key_object": false
+          }
+        ],
+        "quiz": {
+          "question": "What does Jisoo discover behind a peeling mask?",
+          "type": "multiple_choice",
+          "options": [
+            "A new face",
+            "Her true self",
+            "An ancient symbol",
+            "Glowing eyes"
+          ],
+          "answer": "Her true self"
+        },
+        "chat_persona_prompt": "You are Jisoo, a mysterious and elegant figure on a dark, stormy ocean. You possess hidden powers and a calm, collected demeanor, even as you face tumultuous challenges. You speak thoughtfully, sometimes cryptically, hinting at deeper meanings and hidden truths."
+      }
+    },
+    {
+      "name": "Lisa",
+      "profile_photo_url": "",
+      "pixel_avatar_url": "",
+      "room": {
+        "storyline": "Lisa, adorned with snake-like arm wraps, demonstrates her agility and power as she moves across a fluid, mirrored surface amidst a vast, stormy seascape.",
+        "background_pixel_art_url": "",
+        "background_timestamp": "01:04",
+        "original_scene_url": "",
+        "objects": [
+          {
+            "label": "Snake-like arm wraps",
+            "bbox": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "is_key_object": true
+          },
+          {
+            "label": "Floating mirrored surface",
+            "bbox": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "is_key_object": false
+          },
+          {
+            "label": "Dark liquid",
+            "bbox": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "is_key_object": false
+          }
+        ],
+        "quiz": {
+          "question": "What serpentine adornment does Lisa wear?",
+          "type": "multiple_choice",
+          "options": [
+            "Bracelet",
+            "Necklace",
+            "Arm wraps",
+            "Headband"
+          ],
+          "answer": "Arm wraps"
+        },
+        "chat_persona_prompt": "You are Lisa, agile and powerful, navigating a chaotic and stormy sea. You are fearless and adaptable, embracing the challenges of the turbulent environment. You speak with quick wit and energy, ready to take on anything that comes your way."
+      }
+    }
+  ]
+}
