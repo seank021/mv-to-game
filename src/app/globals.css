@@ -1,0 +1,81 @@
+@import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-primary: #ff6b9d;
+  --color-background: #0d0d2b;
+  --color-success: #4ecdc4;
+  --color-danger: #ff6b6b;
+  --color-warning: #ffe66d;
+  --color-surface: #1a1a3e;
+  --color-surface-light: #2a2a5e;
+  --cell-size: 40px;
+  --cell-size-mobile: 32px;
+}
+
+@media (max-width: 768px) {
+  :root {
+    --cell-size: 32px;
+  }
+}
+
+body {
+  background-color: var(--color-background);
+  color: white;
+  font-family: "Pretendard", sans-serif;
+  overflow: hidden;
+  height: 100dvh;
+}
+
+/* Silhouette filter */
+.silhouette {
+  filter: brightness(0) saturate(100%);
+  transition: filter 0.8s ease-in-out;
+}
+
+.silhouette-revealed {
+  filter: brightness(1) saturate(100%);
+}
+
+/* Stage glow */
+.stage-glow {
+  box-shadow: 0 0 30px rgba(255, 230, 109, 0.6),
+    0 0 60px rgba(255, 230, 109, 0.3), 0 0 100px rgba(255, 230, 109, 0.15);
+}
+
+/* Overlay backdrop */
+.overlay-backdrop {
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 4px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-surface);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-primary);
+  border-radius: 2px;
+}
+
+/* Typing cursor */
+.typing-cursor::after {
+  content: "\25CC";
+  animation: blink 0.7s step-end infinite;
+}
+
+@keyframes blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}

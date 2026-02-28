@@ -1,0 +1,88 @@
+/* Object sparkle when nearby */
+@keyframes sparkle {
+  0%,
+  100% {
+    transform: scale(1);
+    filter: brightness(1);
+  }
+  50% {
+    transform: scale(1.15);
+    filter: brightness(1.4);
+  }
+}
+
+.object-nearby {
+  animation: sparkle 0.8s ease-in-out infinite;
+}
+
+/* Rescue flash */
+@keyframes rescueFlash {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(1.5);
+    filter: brightness(2);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(2);
+  }
+}
+
+.rescue-flash {
+  animation: rescueFlash 1.5s ease-out forwards;
+}
+
+/* Interaction hint bounce */
+@keyframes hintBounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+.hint-bounce {
+  animation: hintBounce 1s ease-in-out infinite;
+}
+
+/* Stage clear glow */
+@keyframes stageGlow {
+  0% {
+    box-shadow: 0 0 0px rgba(255, 230, 109, 0);
+  }
+  100% {
+    box-shadow: 0 0 40px rgba(255, 230, 109, 0.8),
+      0 0 80px rgba(255, 230, 109, 0.4), 0 0 120px rgba(255, 230, 109, 0.2);
+  }
+}
+
+.stage-clear-glow {
+  animation: stageGlow 1s ease-in forwards;
+}
+
+/* Timer states */
+@keyframes timerPulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.08);
+  }
+}
+
+.timer-critical {
+  animation: timerPulse 0.5s ease-in-out infinite;
+  color: var(--color-danger);
+}
+
+.timer-warning {
+  animation: blink 1s step-end infinite;
+  color: var(--color-warning);
+}
