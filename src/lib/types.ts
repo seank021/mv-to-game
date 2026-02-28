@@ -67,6 +67,7 @@ export interface MemberData {
   objects: ObjectData[];
   quiz: QuizData;
   chat: MemberChatData;
+  chatPersonaPrompt?: string;
 }
 
 export interface RoomData {

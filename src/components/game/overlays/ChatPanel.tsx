@@ -10,8 +10,24 @@ interface ChatPanelProps {
   memberId?: string;
 }
 
+async function fetchGeminiReply(
+  message: string,
+  persona: string,
+  history: { from: string; text: string }[]
+): Promise<string> {
+  const res = await fetch("/api/chat", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ message, persona, history }),
+  });
+  if (!res.ok) return "...I can't think right now. Try again?";
+  const data = await res.json();
+  return data.reply;
+}
+
 export function ChatPanel({ memberId }: ChatPanelProps) {
   const [input, setInput] = useState("");
+  const [loading, setLoading] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const members = useGameStore((s) => s.members);
@@ -24,48 +40,56 @@ export function ChatPanel({ memberId }: ChatPanelProps) {
   const member = members.find((m) => m.id === memberId);
   if (!member) return null;
 
-  const handleSend = () => {
-    if (!input.trim()) return;
+  const persona = member.chatPersonaPrompt ?? member.chat.genericResponses.join(" ");
 
-    // Add player message
+  const handleSend = async () => {
+    if (!input.trim() || loading) return;
+
+    const playerText = input.trim();
     addChatMessage({
       id: `player-${Date.now()}`,
       from: "player",
-      text: input.trim(),
+      text: playerText,
     });
     setInput("");
+    setLoading(true);
 
-    // Generate member response (cycle through generic responses)
-    setTimeout(() => {
-      const state = useGameStore.getState();
-      const idx = state.chatGenericIndex % member.chat.genericResponses.length;
-      addChatMessage({
-        id: `member-${Date.now()}`,
-        from: "member",
-        text: member.chat.genericResponses[idx],
-      });
-      useGameStore.setState({ chatGenericIndex: state.chatGenericIndex + 1 });
-    }, 500);
+    const history = useGameStore.getState().chatMessages.map((m) => ({
+      from: m.from,
+      text: m.text,
+    }));
+
+    const reply = await fetchGeminiReply(playerText, persona, history);
+    addChatMessage({
+      id: `member-${Date.now()}`,
+      from: "member",
+      text: reply,
+    });
+    setLoading(false);
   };
 
-  const handleHint = () => {
-    const state = useGameStore.getState();
-    const idx = state.chatHintIndex % member.chat.hintResponses.length;
+  const handleHint = async () => {
+    if (loading) return;
 
     addChatMessage({
       id: `player-hint-${Date.now()}`,
       from: "player",
       text: "Can you give me a hint?",
     });
+    setLoading(true);
 
-    setTimeout(() => {
-      addChatMessage({
-        id: `hint-${Date.now()}`,
-        from: "member",
-        text: member.chat.hintResponses[idx],
-      });
-      useGameStore.setState({ chatHintIndex: state.chatHintIndex + 1 });
-    }, 500);
+    const history = useGameStore.getState().chatMessages.map((m) => ({
+      from: m.from,
+      text: m.text,
+    }));
+
+    const reply = await fetchGeminiReply("Can you give me a hint?", persona, history);
+    addChatMessage({
+      id: `hint-${Date.now()}`,
+      from: "member",
+      text: reply,
+    });
+    setLoading(false);
   };
 
   const handleQuiz = () => {
@@ -137,8 +161,8 @@ export function ChatPanel({ memberId }: ChatPanelProps) {
               className="flex-1 bg-background border border-surface-light rounded-lg px-3 py-2
                          text-sm text-white placeholder-gray-500 focus:outline-none focus:border-primary"
             />
-            <PixelButton size="sm" onClick={handleSend}>
-              Send
+            <PixelButton size="sm" onClick={handleSend} disabled={loading}>
+              {loading ? "..." : "Send"}
             </PixelButton>
           </div>
           <div className="flex gap-2 justify-center">
