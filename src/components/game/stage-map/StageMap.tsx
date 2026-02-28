@@ -214,9 +214,9 @@ export function StageMap() {
           );
         })}
 
-        {/* Stage area — concert stage with silhouettes */}
+        {/* Stage area — concert stage platform */}
         <div
-          className="absolute flex flex-col items-center justify-center pointer-events-none"
+          className="absolute pointer-events-none"
           style={{
             left: STAGE_AREA.startCol * CELL_SIZE,
             top: STAGE_AREA.startRow * CELL_SIZE,
@@ -224,15 +224,26 @@ export function StageMap() {
             height: (STAGE_AREA.endRow - STAGE_AREA.startRow + 1) * CELL_SIZE,
           }}
         >
+          {/* Stage platform background */}
           <div
-            className={`flex flex-col items-center gap-1 ${
-              members.every((m) => m.status === "rescued") ? "stage-clear-glow rounded-lg" : ""
+            className={`absolute inset-0 rounded-lg border-2 transition-all duration-1000 ${
+              allRescued
+                ? "border-warning/80 bg-warning/15 stage-clear-glow"
+                : "border-warning/30 bg-gradient-to-b from-warning/10 to-warning/5"
             }`}
-          >
-            <span className="font-pixel text-[5px] md:text-[6px] text-gray-500">
-              STAGE
+          />
+
+          {/* Spotlight beams from top */}
+          <div className="absolute -top-3 left-1/4 w-1 h-3 bg-gradient-to-b from-warning/40 to-transparent rounded-full" />
+          <div className="absolute -top-3 left-1/2 w-1 h-3 bg-gradient-to-b from-warning/60 to-transparent rounded-full -translate-x-1/2" />
+          <div className="absolute -top-3 right-1/4 w-1 h-3 bg-gradient-to-b from-warning/40 to-transparent rounded-full" />
+
+          {/* Stage content */}
+          <div className="relative flex flex-col items-center justify-center h-full gap-1">
+            <span className="font-pixel text-[6px] md:text-[7px] text-warning/70 tracking-widest">
+              &#9733; STAGE &#9733;
             </span>
-            <div className="flex gap-1">
+            <div className="flex gap-1.5">
               {members.map((m) => (
                 <Silhouette
                   key={m.id}
@@ -242,7 +253,24 @@ export function StageMap() {
                 />
               ))}
             </div>
+            {/* Rescued counter */}
+            <span className="font-pixel text-[4px] md:text-[5px] text-warning/50 mt-0.5">
+              {members.filter((m) => m.status === "rescued").length}/{members.length}
+            </span>
           </div>
+        </div>
+
+        {/* Road to stage arrow — visual connector between corridor and stage */}
+        <div
+          className="absolute pointer-events-none flex items-center justify-center"
+          style={{
+            left: 11 * CELL_SIZE,
+            top: 5 * CELL_SIZE,
+            width: CELL_SIZE,
+            height: CELL_SIZE,
+          }}
+        >
+          <span className="font-pixel text-[8px] text-warning/40">&rarr;</span>
         </div>
 
         {/* Entry arrow */}
@@ -267,8 +295,6 @@ export function StageMap() {
             width: CELL_SIZE,
             height: CELL_SIZE,
             transform: "translate(-50%, -50%)",
-            marginLeft: CELL_SIZE / 2,
-            marginTop: CELL_SIZE / 2,
           }}
         >
           <span className="text-lg md:text-xl drop-shadow-lg">&#129489;</span>

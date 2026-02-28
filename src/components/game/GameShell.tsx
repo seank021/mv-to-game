@@ -2,6 +2,7 @@
 
 import { useGameStore } from "@/stores/gameStore";
 import { useTimer } from "@/hooks/useTimer";
+import { useBGM } from "@/hooks/useBGM";
 import { HeaderWidget } from "./HeaderWidget";
 import { StageMap } from "./stage-map/StageMap";
 import { RoomView } from "./room/RoomView";
@@ -18,6 +19,7 @@ export function GameShell() {
   const members = useGameStore((s) => s.members);
 
   useTimer();
+  useBGM();
 
   // Get the portal info for transition label
   const pendingMember = pendingRoomId

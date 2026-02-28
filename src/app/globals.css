@@ -12,13 +12,13 @@
   --color-warning: #ffe66d;
   --color-surface: #1a1a3e;
   --color-surface-light: #2a2a5e;
-  --cell-size: 40px;
-  --cell-size-mobile: 32px;
+  --cell-size: 32px;
+  --cell-size-mobile: 24px;
 }
 
 @media (max-width: 768px) {
   :root {
-    --cell-size: 32px;
+    --cell-size: 24px;
   }
 }
 

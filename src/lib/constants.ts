@@ -1,29 +1,29 @@
 // ─── Stage Map Layout ───
 // 0 = wall, 1 = walkable corridor
-// 15 cols x 11 rows
+// 15 cols x 11 rows — all corridors are 2 cells wide for smooth movement
 export const STAGE_MAP_LAYOUT = [
   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0], // S1(col3), S3(col9)
-  [0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0], // paths to corridor
+  [0, 0, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0], // S1(cols 2-3), S3(cols 8-9)
+  [0, 0, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0], // paths to corridor
   [0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0], // top horizontal corridor
-  [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1], // left/right verticals + stage
-  [1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1], // player entry + stage
-  [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1], // left/right verticals + stage
+  [0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1], // left/right verticals + stage
+  [1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1], // player entry + stage
+  [0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1], // left/right verticals + stage
   [0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0], // bottom horizontal corridor
-  [0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0], // paths to corridor
-  [0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0], // S2(col3), S4(col9)
+  [0, 0, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0], // paths to corridor
+  [0, 0, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0], // S2(cols 2-3), S4(cols 8-9)
   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 ];
 
 export const STAGE_COLS = 15;
 export const STAGE_ROWS = 11;
 
-// Room portals (positions on stage map)
+// Room portals (positions on stage map — centered in 2-wide paths)
 export const STAGE_PORTALS = [
-  { roomId: "mansion", col: 3, row: 1, emoji: "\u{1F3F0}", label: "S1" },
-  { roomId: "ocean", col: 9, row: 1, emoji: "\u{1F30A}", label: "S3" },
-  { roomId: "garden", col: 3, row: 9, emoji: "\u{1F33F}", label: "S2" },
-  { roomId: "stage", col: 9, row: 9, emoji: "\u{1F3A4}", label: "S4" },
+  { roomId: "mansion", col: 2, row: 1, emoji: "\u{1F3F0}", label: "S1" },
+  { roomId: "ocean", col: 8, row: 1, emoji: "\u{1F30A}", label: "S3" },
+  { roomId: "garden", col: 2, row: 9, emoji: "\u{1F33F}", label: "S2" },
+  { roomId: "stage", col: 8, row: 9, emoji: "\u{1F3A4}", label: "S4" },
 ] as const;
 
 // Stage area (concert stage with silhouettes)
@@ -44,8 +44,8 @@ export const ROOM_ENTRY_POSITION = { x: 1, y: 7 };
 export const ROOM_EXIT_POSITION = { col: 0, row: 7 };
 
 // ─── Cell sizes (pixels) ───
-export const CELL_SIZE = 40;
-export const CELL_SIZE_MOBILE = 32;
+export const CELL_SIZE = 32;
+export const CELL_SIZE_MOBILE = 24;
 
 // ─── Movement ───
 export const MOVE_SPEED = 5; // grid units per second (delta-time based)

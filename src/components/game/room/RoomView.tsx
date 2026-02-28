@@ -209,10 +209,10 @@ export function RoomView() {
         </div>
       </div>
 
-      {/* Interaction hint */}
+      {/* Interaction hint — fixed overlay so it doesn't push layout */}
       {hintText && canInteract && !activeOverlay && (
-        <div className="hint-bounce mt-3">
-          <div className="bg-surface/90 border border-primary/50 rounded-lg px-4 py-2 backdrop-blur-sm">
+        <div className="fixed bottom-20 left-1/2 -translate-x-1/2 z-20 pointer-events-none">
+          <div className="hint-bounce bg-surface/90 border border-primary/50 rounded-lg px-4 py-2 backdrop-blur-sm">
             <span className="font-pixel text-[7px] md:text-[8px] text-primary">
               {hintText}
             </span>
