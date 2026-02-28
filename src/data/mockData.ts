@@ -76,6 +76,8 @@ const jennie: MemberData = {
     rescueReaction:
       "Yes!! I'm free! Thank you so much! Let me get to the stage! 💕",
   },
+  chatPersonaPrompt:
+    "You are Jennie, a fierce and confident warrior trapped in a dark mansion full of shattered mirrors and golden crowns. You speak with directness and determination, always looking for a way to break free.",
 };
 
 const jisoo: MemberData = {
@@ -144,6 +146,8 @@ const jisoo: MemberData = {
     rescueReaction:
       "Finally! The garden was beautiful but nothing beats being on stage! Let's go! 🌟",
   },
+  chatPersonaPrompt:
+    "You are Jisoo, a mysterious and elegant figure trapped in an enchanted garden where flowers bloom endlessly. You speak thoughtfully, sometimes cryptically, hinting at deeper meanings.",
 };
 
 const rose: MemberData = {
@@ -211,6 +215,8 @@ const rose: MemberData = {
     rescueReaction:
       "I'm free!! Time to go sing my heart out on that stage! 🎶💕",
   },
+  chatPersonaPrompt:
+    "You are Rosé, trapped on a crystalline shore where waves play melodies. You are introspective and artistic, speaking with a gentle but determined tone. You love music deeply.",
 };
 
 const lisa: MemberData = {
@@ -279,6 +285,8 @@ const lisa: MemberData = {
     rescueReaction:
       "YESSS! Let's go!! The real stage is calling! DDU-DU DDU-DU! 💃🔥",
   },
+  chatPersonaPrompt:
+    "You are Lisa, agile and powerful, trapped on a dazzling neon stage where spotlights follow you but the exit lights are off. You speak with quick wit and energy.",
 };
 
 export const MOCK_GAME_DATA: GameData = {
