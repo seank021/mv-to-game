@@ -101,13 +101,31 @@ export function RoomView() {
 
   return (
     <motion.div
-      className={`flex flex-col items-center justify-center min-h-[calc(100dvh-3rem)] p-2 md:p-4 ${member.roomBackground}`}
+      className={`relative flex flex-col items-center justify-center min-h-[calc(100dvh-3rem)] p-2 md:p-4 ${member.roomBackground} overflow-hidden`}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.3 }}
     >
+      {/* Full-page blurred background image */}
+      {member.roomBackgroundImage && (
+        <div
+          className="absolute inset-0 z-0"
+          style={{
+            backgroundImage: `url(${member.roomBackgroundImage})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            filter: "blur(12px)",
+            transform: "scale(1.1)",
+          }}
+        />
+      )}
+      {/* Dark overlay for readability */}
+      {member.roomBackgroundImage && (
+        <div className="absolute inset-0 bg-black/50 z-0" />
+      )}
+
       {/* Room title */}
-      <div className="text-center mb-2">
+      <div className="relative z-10 text-center mb-2">
         <span className="font-pixel text-[8px] md:text-[10px] text-gray-300">
           {member.roomEmoji} {member.roomName}
         </span>
@@ -115,7 +133,7 @@ export function RoomView() {
 
       {/* Game Area — absolute positioned entities on grid */}
       <div
-        className="relative rounded-xl border border-white/10 overflow-hidden"
+        className="relative z-10 rounded-xl border border-white/10 overflow-hidden"
         style={{
           width: ROOM_COLS * CELL_SIZE,
           height: ROOM_ROWS * CELL_SIZE,
@@ -127,9 +145,9 @@ export function RoomView() {
           backgroundColor: member.roomBackgroundImage ? undefined : "rgba(0,0,0,0.3)",
         }}
       >
-        {/* Dark overlay for readability */}
+        {/* Dark overlay on game area for readability */}
         {member.roomBackgroundImage && (
-          <div className="absolute inset-0 bg-black/40 z-0" />
+          <div className="absolute inset-0 bg-black/30 z-0" />
         )}
 
         {/* Responsive mobile override */}
