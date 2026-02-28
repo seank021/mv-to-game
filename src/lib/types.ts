@@ -62,6 +62,7 @@ export interface MemberData {
   roomName: string;
   roomEmoji: string;
   roomBackground: string;
+  roomBackgroundImage?: string;  // URL to extracted frame
   storyline: string;
   position: Position;
   status: MemberStatus;
@@ -106,6 +107,7 @@ export interface ZoneData {
   zoneId: string;
   memberName: string;
   backgroundTimestamp: string;
+  backgroundImageUrl?: string;  // URL to extracted frame
   width: number;
   height: number;
   connections: ZoneConnection[];

@@ -115,12 +115,23 @@ export function RoomView() {
 
       {/* Game Area — absolute positioned entities on grid */}
       <div
-        className="relative rounded-xl border border-white/10 overflow-hidden bg-black/30"
+        className="relative rounded-xl border border-white/10 overflow-hidden"
         style={{
           width: ROOM_COLS * CELL_SIZE,
           height: ROOM_ROWS * CELL_SIZE,
+          backgroundImage: member.roomBackgroundImage
+            ? `url(${member.roomBackgroundImage})`
+            : undefined,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundColor: member.roomBackgroundImage ? undefined : "rgba(0,0,0,0.3)",
         }}
       >
+        {/* Dark overlay for readability */}
+        {member.roomBackgroundImage && (
+          <div className="absolute inset-0 bg-black/40 z-0" />
+        )}
+
         {/* Responsive mobile override */}
         <style jsx>{`
           @media (max-width: 768px) {

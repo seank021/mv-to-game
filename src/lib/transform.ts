@@ -159,7 +159,11 @@ function findAvatar(avatarMap: Record<string, string> | undefined, name: string)
   return undefined;
 }
 
-export function transformAnalyzerOutput(data: AnalyzerOutput, avatarMap?: Record<string, string>): GameData {
+export function transformAnalyzerOutput(
+  data: AnalyzerOutput,
+  avatarMap: Record<string, string>,
+  backgroundMap?: Map<string, string>
+): GameData {
   const members: MemberData[] = data.members.map((member, index) => {
     const zone = data.map.zones.find((z) => z.member_name === member.name);
     const theme = ROOM_THEMES[index % ROOM_THEMES.length];
@@ -214,6 +218,7 @@ export function transformAnalyzerOutput(data: AnalyzerOutput, avatarMap?: Record
       roomName,
       roomEmoji: theme.emoji,
       roomBackground: theme.bg,
+      roomBackgroundImage: backgroundMap?.get(zone?.zone_id ?? ""),
       storyline: member.room.storyline,
       position: memberPos,
       status: "trapped" as const,
@@ -232,6 +237,7 @@ export function transformAnalyzerOutput(data: AnalyzerOutput, avatarMap?: Record
       zoneId: z.zone_id,
       memberName: z.member_name,
       backgroundTimestamp: z.background_timestamp,
+      backgroundImageUrl: backgroundMap?.get(z.zone_id),
       width: z.width,
       height: z.height,
       connections: z.connections.map((c) => ({
