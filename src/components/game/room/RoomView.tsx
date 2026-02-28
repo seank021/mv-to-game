@@ -207,18 +207,30 @@ export function RoomView() {
         >
           <span className="text-lg md:text-xl drop-shadow-lg">&#129489;</span>
         </div>
-      </div>
 
-      {/* Interaction hint — fixed overlay so it doesn't push layout */}
-      {hintText && canInteract && !activeOverlay && (
-        <div className="fixed bottom-20 left-1/2 -translate-x-1/2 z-20 pointer-events-none">
-          <div className="hint-bounce bg-surface/90 border border-primary/50 rounded-lg px-4 py-2 backdrop-blur-sm">
-            <span className="font-pixel text-[7px] md:text-[8px] text-primary">
-              {hintText}
-            </span>
-          </div>
-        </div>
-      )}
+        {/* Interaction hint — positioned near the target */}
+        {hintText && canInteract && !activeOverlay && (() => {
+          const target = targets.find((t) => t.id === interactTargetId);
+          if (!target) return null;
+          const showBelow = target.position.row <= 1;
+          return (
+            <div
+              className="absolute z-20 pointer-events-none flex justify-center"
+              style={{
+                left: `calc(${target.position.col} * var(--cell-size) - var(--cell-size) / 2)`,
+                top: `calc(${(showBelow ? target.position.row + 1 : target.position.row - 1)} * var(--cell-size))`,
+                width: `calc(var(--cell-size) * 2)`,
+              }}
+            >
+              <div className="hint-bounce bg-surface/90 border border-primary/50 rounded-lg px-2 py-0.5 backdrop-blur-sm whitespace-nowrap">
+                <span className="font-pixel text-[5px] md:text-[6px] text-primary">
+                  {hintText}
+                </span>
+              </div>
+            </div>
+          );
+        })()}
+      </div>
 
       {/* Overlays */}
       {activeOverlay === "chat" && <ChatPanel memberId={overlayData?.memberId} />}

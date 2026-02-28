@@ -316,16 +316,30 @@ export function StageMap() {
           <span className="text-lg md:text-xl drop-shadow-lg">&#129489;</span>
         </div>
 
-        {/* Interaction hint */}
-        {canInteract && enabled && (
-          <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 z-20">
-            <div className="hint-bounce bg-surface/90 border border-primary/50 rounded-lg px-3 py-1 backdrop-blur-sm">
-              <span className="font-pixel text-[7px] md:text-[8px] text-primary">
-                Press E to enter
-              </span>
+        {/* Interaction hint — positioned near the active portal */}
+        {canInteract && enabled && (() => {
+          const activePortal = portals.find(
+            (p) => `portal-${p.roomId}` === interactTargetId
+          );
+          if (!activePortal) return null;
+          const showBelow = activePortal.row <= 1;
+          return (
+            <div
+              className="absolute z-20 pointer-events-none flex justify-center"
+              style={{
+                left: activePortal.col * CELL_SIZE - CELL_SIZE / 2,
+                top: (showBelow ? activePortal.row + 1 : activePortal.row - 1) * CELL_SIZE,
+                width: CELL_SIZE * 2,
+              }}
+            >
+              <div className="hint-bounce bg-surface/90 border border-primary/50 rounded-lg px-2 py-0.5 backdrop-blur-sm whitespace-nowrap">
+                <span className="font-pixel text-[5px] md:text-[6px] text-primary">
+                  Press E
+                </span>
+              </div>
             </div>
-          </div>
-        )}
+          );
+        })()}
       </div>
 
       {/* Instructions */}

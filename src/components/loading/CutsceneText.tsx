@@ -77,7 +77,7 @@ export function CutsceneText({ onComplete }: CutsceneTextProps) {
         )}
       </div>
       <p className="text-center text-gray-600 text-xs mt-3 font-pixel">
-        {isTyping ? "Click to skip" : "Click to continue"}
+        {isTyping ? "Click to skip explanation..." : "Click to skip explanation..."}
       </p>
     </button>
   );
