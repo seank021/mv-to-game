@@ -122,6 +122,7 @@ export interface GameData {
   mvId: string;
   title: string;
   artist: string;
+  audioUrl: string;
   durationSeconds: number;
   members: MemberData[];
   map: MapData;

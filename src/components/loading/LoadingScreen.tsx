@@ -81,7 +81,7 @@ export function LoadingScreen({ onComplete, analyzing }: LoadingScreenProps) {
       </div>
 
       {/* Cutscene */}
-      <CutsceneText onComplete={handleCutsceneComplete} />
+      <CutsceneText onComplete={handleCutsceneComplete} analyzing={analyzing} />
 
       {/* Progress */}
       <ProgressBar progress={progress} />

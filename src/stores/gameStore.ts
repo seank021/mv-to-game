@@ -32,6 +32,7 @@ interface GameState {
   // Game data
   title: string;
   artist: string;
+  audioUrl: string;
   durationSeconds: number;
 
   // Timer
@@ -158,6 +159,7 @@ export const useGameStore = create<GameState>((set, get) => ({
   // Game data
   title: "",
   artist: "",
+  audioUrl: "",
   durationSeconds: 0,
 
   // Timer
@@ -270,6 +272,7 @@ export const useGameStore = create<GameState>((set, get) => ({
       phase: "stage-map",
       title: data.title,
       artist: data.artist,
+      audioUrl: data.audioUrl,
       durationSeconds: data.durationSeconds,
       timeRemaining: data.durationSeconds,
       timerRunning: true,
@@ -299,6 +302,7 @@ export const useGameStore = create<GameState>((set, get) => ({
       phase: "landing",
       title: "",
       artist: "",
+      audioUrl: "",
       durationSeconds: 0,
       timeRemaining: 0,
       timerRunning: false,

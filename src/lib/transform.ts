@@ -241,6 +241,7 @@ export function transformAnalyzerOutput(data: AnalyzerOutput): GameData {
     mvId: data.mv_id,
     title: data.title,
     artist: data.artist,
+    audioUrl: data.audio_url,
     durationSeconds: data.duration_seconds,
     members,
     map,

@@ -25,7 +25,17 @@ export function UrlInput() {
       return;
     }
     setError("");
-    // Pass URL as query param so the play page can analyze it
+
+    // Unlock audio playback for the entire tab (survives SPA navigation).
+    // Browsers require a user gesture to create/resume an AudioContext;
+    // once resumed, Audio.play() works without further gestures.
+    try {
+      const ctx = new AudioContext();
+      ctx.resume().then(() => ctx.close());
+    } catch {
+      // AudioContext not supported — audio will require later click
+    }
+
     router.push(`/play?url=${encodeURIComponent(url.trim())}`);
   };
 

@@ -293,6 +293,7 @@ export const MOCK_GAME_DATA: GameData = {
   mvId: "ddu-du-ddu-du",
   title: "DDU-DU DDU-DU",
   artist: "BLACKPINK",
+  audioUrl: "https://www.youtube.com/watch?v=IHNzOHi8sJs",
   durationSeconds: 210,
   members: [jennie, jisoo, rose, lisa],
   map: {
