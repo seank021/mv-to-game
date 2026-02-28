@@ -8,12 +8,12 @@ from google.genai.types import Part
 
 load_dotenv(os.path.join(os.path.dirname(__file__), "..", ".env"))
 
-GEMINI_API_KEY = os.getenv("GEMINI_API")
-if not GEMINI_API_KEY:
+GEMINI_API = os.getenv("GEMINI_API")
+if not GEMINI_API:
     print("Error: GEMINI_API not found in .env", file=sys.stderr)
     sys.exit(1)
 
-client = genai.Client(api_key=GEMINI_API_KEY)
+client = genai.Client(api_key=GEMINI_API)
 MODEL = "gemini-2.5-flash"
 
 PROMPT = """You are analyzing a K-pop music video to generate game data for an escape room game. Watch the entire video carefully and produce a JSON response with exactly this structure:
