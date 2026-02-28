@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { GameResult } from "@/lib/types";
 import { useGameStore } from "@/stores/gameStore";
 import { PixelButton } from "@/components/ui/PixelButton";
@@ -10,6 +11,7 @@ interface GameOverResultProps {
 }
 
 export function GameOverResult({ result }: GameOverResultProps) {
+  const router = useRouter();
   const members = useGameStore((s) => s.members);
   const resetGame = useGameStore((s) => s.resetGame);
 
@@ -66,7 +68,10 @@ export function GameOverResult({ result }: GameOverResultProps) {
         <PixelButton size="sm" onClick={resetGame}>
           Try Again
         </PixelButton>
-        <PixelButton size="sm" variant="success" onClick={resetGame}>
+        <PixelButton size="sm" variant="success" onClick={() => {
+          resetGame();
+          router.replace("/");
+        }}>
           Another MV
         </PixelButton>
       </div>

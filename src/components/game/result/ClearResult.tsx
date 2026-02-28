@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { GameResult } from "@/lib/types";
 import { useGameStore } from "@/stores/gameStore";
 import { PixelButton } from "@/components/ui/PixelButton";
@@ -10,6 +11,7 @@ interface ClearResultProps {
 }
 
 export function ClearResult({ result }: ClearResultProps) {
+  const router = useRouter();
   const members = useGameStore((s) => s.members);
   const title = useGameStore((s) => s.title);
   const artist = useGameStore((s) => s.artist);
@@ -86,7 +88,10 @@ export function ClearResult({ result }: ClearResultProps) {
         <PixelButton size="sm" onClick={resetGame}>
           Try Again
         </PixelButton>
-        <PixelButton size="sm" variant="success" onClick={resetGame}>
+        <PixelButton size="sm" variant="success" onClick={() => {
+          resetGame();
+          router.replace("/");
+        }}>
           Another MV
         </PixelButton>
       </div>

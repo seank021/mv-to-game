@@ -30,6 +30,10 @@ export function usePlayerMovement(
     if (!enabled) return;
 
     const onDown = (e: KeyboardEvent) => {
+      // Don't capture movement keys when user is typing in an input
+      const tag = (e.target as HTMLElement)?.tagName;
+      if (tag === "INPUT" || tag === "TEXTAREA" || (e.target as HTMLElement)?.isContentEditable) return;
+
       const key = e.key.toLowerCase();
       if (
         [
