@@ -127,7 +127,8 @@ def main():
     video_id = match.group(1) if match else "output"
     result["mv_id"] = video_id
     result["audio_url"] = url
-    output_path = os.path.join(os.path.dirname(__file__), "mvstoryline.json")
+    output_path = os.path.join(os.path.dirname(__file__), f"{video_id}.json")
+
 
     with open(output_path, "w", encoding="utf-8") as f:
         json.dump(result, f, indent=2, ensure_ascii=False)

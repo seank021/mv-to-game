@@ -1,22 +1,7 @@
-import sys
-import json
-import os
-import re
-from dotenv import load_dotenv
-from google import genai
-from google.genai.types import Part
+import { NextRequest, NextResponse } from "next/server";
+import { GoogleGenAI } from "@google/genai";
 
-load_dotenv(os.path.join(os.path.dirname(__file__), "..", ".env"))
-
-GEMINI_API_KEY = os.getenv("GEMINI_API")
-if not GEMINI_API_KEY:
-    print("Error: GEMINI_API not found in .env", file=sys.stderr)
-    sys.exit(1)
-
-client = genai.Client(api_key=GEMINI_API_KEY)
-MODEL = "gemini-2.5-flash"
-
-PROMPT = """You are analyzing a K-pop music video to generate game data for an escape room game. Watch the entire video carefully and produce a JSON response with exactly this structure:
+const PROMPT = `You are analyzing a K-pop music video to generate game data for an escape room game. Watch the entire video carefully and produce a JSON response with exactly this structure:
 
 {
   "mv_id": "<youtube_video_id>",
@@ -86,54 +71,74 @@ Rules:
 - Leave all bbox values as [0, 0, 0, 0] (will be filled later)
 - spawn_zone should be the first zone
 
-Return ONLY valid JSON, no markdown fences or extra text."""
+Return ONLY valid JSON, no markdown fences or extra text.`;
 
+/** Extract YouTube video ID from URL */
+function extractVideoId(url: string): string | null {
+  const match = url.match(/(?:v=|youtu\.be\/)([\w-]+)/);
+  return match ? match[1] : null;
+}
 
-def analyze_mv(youtube_url: str) -> dict:
-    response = client.models.generate_content(
-        model=MODEL,
-        contents=[
-            Part.from_uri(file_uri=youtube_url, mime_type="video/mp4"),
-            PROMPT,
-        ],
-    )
+export async function POST(req: NextRequest) {
+  try {
+    const { url } = await req.json();
+    if (!url || typeof url !== "string") {
+      return NextResponse.json({ error: "Missing url" }, { status: 400 });
+    }
 
-    text = response.text.strip()
-    # Strip markdown code fences if present
-    if text.startswith("```"):
-        text = text.split("\n", 1)[1]
-    if text.endswith("```"):
-        text = text.rsplit("```", 1)[0]
-    if text.startswith("json"):
-        text = text[4:]
+    const videoId = extractVideoId(url);
+    if (!videoId) {
+      return NextResponse.json({ error: "Invalid YouTube URL" }, { status: 400 });
+    }
 
-    return json.loads(text.strip())
+    const apiKey = process.env.GEMINI_API;
+    if (!apiKey) {
+      return NextResponse.json(
+        { error: "GEMINI_API not configured in .env" },
+        { status: 500 }
+      );
+    }
 
+    // Call Gemini with the YouTube video
+    const ai = new GoogleGenAI({ apiKey });
 
-def main():
-    if len(sys.argv) < 2:
-        print("Usage: python analyze_mv.py <youtube_url>", file=sys.stderr)
-        print("Example: python analyze_mv.py https://www.youtube.com/watch?v=dQw4w9WgXcQ", file=sys.stderr)
-        sys.exit(1)
+    const response = await ai.models.generateContent({
+      model: "gemini-2.5-flash",
+      contents: [
+        {
+          role: "user",
+          parts: [
+            { fileData: { fileUri: url, mimeType: "video/mp4" } },
+            { text: PROMPT },
+          ],
+        },
+      ],
+    });
 
-    url = sys.argv[1]
-    print(f"Analyzing music video: {url}", file=sys.stderr)
-    print("This may take a minute...", file=sys.stderr)
+    let text = response.text?.trim() ?? "";
 
-    result = analyze_mv(url)
+    // Strip markdown code fences if present (e.g. ```json ... ```)
+    const fenceMatch = text.match(/^```(?:json)?\s*\n([\s\S]*?)\n```$/);
+    if (fenceMatch) {
+      text = fenceMatch[1];
+    }
 
-    # Extract video ID from URL for the filename and enforce correct values
-    match = re.search(r"(?:v=|youtu\.be/)([\w-]+)", url)
-    video_id = match.group(1) if match else "output"
-    result["mv_id"] = video_id
-    result["audio_url"] = url
-    output_path = os.path.join(os.path.dirname(__file__), f"{video_id}.json")
+    let data;
+    try {
+      data = JSON.parse(text.trim());
+    } catch (parseErr) {
+      console.error("Gemini raw response:", text.slice(0, 500));
+      throw new Error("Failed to parse Gemini response as JSON");
+    }
 
-    with open(output_path, "w", encoding="utf-8") as f:
-        json.dump(result, f, indent=2, ensure_ascii=False)
+    // Enforce correct video ID and URL
+    data.mv_id = videoId;
+    data.audio_url = url;
 
-    print(f"Saved to {output_path}", file=sys.stderr)
-
-
-if __name__ == "__main__":
-    main()
+    return NextResponse.json(data);
+  } catch (err) {
+    const message = err instanceof Error ? err.message : "Unknown error";
+    console.error("Analyze API error:", err);
+    return NextResponse.json({ error: message }, { status: 500 });
+  }
+}

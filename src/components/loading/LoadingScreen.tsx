@@ -1,44 +1,69 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { CutsceneText } from "./CutsceneText";
 import { ProgressBar } from "./ProgressBar";
-import { LOADING_MIN_DURATION_MS } from "@/lib/constants";
 
 interface LoadingScreenProps {
   onComplete: () => void;
+  /** True while the MV analysis API call is still running */
+  analyzing?: boolean;
 }
 
-export function LoadingScreen({ onComplete }: LoadingScreenProps) {
+export function LoadingScreen({ onComplete, analyzing }: LoadingScreenProps) {
   const [progress, setProgress] = useState(0);
   const [cutsceneDone, setCutsceneDone] = useState(false);
-  const [timerDone, setTimerDone] = useState(false);
+  const completedRef = useRef(false);
 
-  // Simulate loading progress
+  // Progress bar: crawl while analyzing, jump to 100% when done
+  const analysisDoneRef = useRef(false);
+
   useEffect(() => {
+    if (!analyzing && analyzing !== undefined) {
+      // Analysis finished — jump to 100% and stop
+      analysisDoneRef.current = true;
+      setProgress(100);
+      return;
+    }
+
     const start = Date.now();
     const interval = setInterval(() => {
-      const elapsed = Date.now() - start;
-      const pct = Math.min(100, (elapsed / LOADING_MIN_DURATION_MS) * 100);
-      setProgress(pct);
-      if (pct >= 100) {
+      if (analysisDoneRef.current) {
         clearInterval(interval);
-        setTimerDone(true);
+        return;
+      }
+      const elapsed = Date.now() - start;
+      if (analyzing) {
+        // Crawl: 0→40% over 3s, then asymptotically approach 89%
+        if (elapsed < 3000) {
+          setProgress(Math.min(40, (elapsed / 3000) * 40));
+        } else {
+          const extraSec = (elapsed - 3000) / 1000;
+          const crawl = 40 + 50 * (1 - 1 / (1 + extraSec * 0.05));
+          setProgress(Math.min(89, crawl));
+        }
+      } else {
+        // No analysis prop — fill over 5s
+        const pct = Math.min(100, (elapsed / 5000) * 100);
+        setProgress(pct);
+        if (pct >= 100) clearInterval(interval);
       }
     }, 100);
+
     return () => clearInterval(interval);
-  }, []);
+  }, [analyzing]);
 
   const handleCutsceneComplete = useCallback(() => {
     setCutsceneDone(true);
   }, []);
 
-  // Transition when both cutscene and timer are done
+  // Transition when cutscene done AND progress is 100%
   useEffect(() => {
-    if (cutsceneDone && timerDone) {
-      onComplete();
+    if (cutsceneDone && progress >= 100 && !completedRef.current) {
+      completedRef.current = true;
+      setTimeout(() => onComplete(), 300);
     }
-  }, [cutsceneDone, timerDone, onComplete]);
+  }, [cutsceneDone, progress, onComplete]);
 
   return (
     <div className="flex flex-col items-center justify-center min-h-dvh gap-8 px-4">
@@ -60,6 +85,13 @@ export function LoadingScreen({ onComplete }: LoadingScreenProps) {
 
       {/* Progress */}
       <ProgressBar progress={progress} />
+
+      {/* Analysis status */}
+      {analyzing && (
+        <p className="font-pixel text-[7px] text-primary/70 animate-pulse">
+          Analyzing music video...
+        </p>
+      )}
     </div>
   );
 }

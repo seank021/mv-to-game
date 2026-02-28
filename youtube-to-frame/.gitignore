@@ -1,0 +1,21 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+
+# Environment
+.env
+
+# Extracted frames (local storage)
+extracted_frames/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+
+# OMC
+.omc/

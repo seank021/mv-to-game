@@ -25,7 +25,8 @@ export function UrlInput() {
       return;
     }
     setError("");
-    router.push("/play");
+    // Pass URL as query param so the play page can analyze it
+    router.push(`/play?url=${encodeURIComponent(url.trim())}`);
   };
 
   return (
