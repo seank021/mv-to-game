@@ -143,9 +143,6 @@ function PlayContent() {
       .then((data) => (data.avatars ?? {}) as Record<string, string>)
       .catch(() => ({} as Record<string, string>));
 
-    Promise.all([analyzePromise, avatarPromise])
-      .then(([data, avatarMap]: [AnalyzerOutput, Record<string, string>]) => {
-        const transformed = transformAnalyzerOutput(data, avatarMap);
 
 
     // Frame extraction runs in parallel — failures are non-fatal
